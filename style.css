@@ -55,19 +55,39 @@ button {
 button:hover {
   background: #66fcf1;
 }
-
-#stagingTree {
+#treeContainer {
   margin-top: 20px;
   display: flex;
+  justify-content: center;
+}
+
+.treeColumn {
+  display: flex;
   flex-direction: column;
-  width: 60px;
+  align-items: center;
+}
+
+.treeLabel {
+  font-size: 12px;
+  color: #c5c6c7;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.treeLabel.small {
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.treeSpacer {
+  height: 10px;
 }
 
 .bulb {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
-  margin: 6px auto;
+  margin: 4px 0;
   background: #222;
   box-shadow: 0 0 10px #000;
 }
@@ -98,4 +118,35 @@ button:hover {
   min-height: 200px;
   white-space: pre-line;
   font-size: 14px;
+}
+
+#raceBars {
+  margin-top: 20px;
+}
+
+.raceRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.raceRow span {
+  width: 60px;
+  font-size: 14px;
+}
+
+.raceBarOuter {
+  flex: 1;
+  height: 20px;
+  background: #1f2833;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-left: 10px;
+}
+
+.raceBar {
+  height: 100%;
+  width: 0%;
+  background: #66fcf1;
+  transition: width 0.05s linear;
 }

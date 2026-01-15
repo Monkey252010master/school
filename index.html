@@ -34,20 +34,55 @@
     <input id="friendCode" placeholder="Enter friend's code">
     <button id="raceFriendBtn">Start Race</button>
 
-    <h2>Staging Tree</h2>
-    <div id="stagingTree">
-      <div class="bulb pre"></div>
-      <div class="bulb stage"></div>
-      <div class="bulb yellow1"></div>
-      <div class="bulb yellow2"></div>
-      <div class="bulb yellow3"></div>
-      <div class="bulb green"></div>
-    </div>
+  <h2>Staging Tree</h2>
+
+<div id="treeContainer">
+
+  <div class="treeColumn">
+    <div class="treeLabel">PRE‑STAGE</div>
+    <div class="bulb pre"></div>
+
+    <div class="treeLabel">STAGE</div>
+    <div class="bulb stage"></div>
+
+    <div class="treeSpacer"></div>
+
+    <div class="treeLabel small">YELLOW</div>
+    <div class="bulb yellow1"></div>
+
+    <div class="treeLabel small">YELLOW</div>
+    <div class="bulb yellow2"></div>
+
+    <div class="treeLabel small">YELLOW</div>
+    <div class="bulb yellow3"></div>
+
+    <div class="treeLabel">GREEN</div>
+    <div class="bulb green"></div>
   </div>
+
+</div>
 
   <div class="right">
     <h2>Your Build</h2>
     <div id="stats"></div>
+
+    <h2>Race Progress</h2>
+
+<div id="raceBars">
+  <div class="raceRow">
+    <span>You</span>
+    <div class="raceBarOuter">
+      <div id="barYou" class="raceBar"></div>
+    </div>
+  </div>
+
+  <div class="raceRow">
+    <span>Friend</span>
+    <div class="raceBarOuter">
+      <div id="barFriend" class="raceBar"></div>
+    </div>
+  </div>
+</div>
 
     <h2>Race Results</h2>
     <div id="raceOutput"></div>

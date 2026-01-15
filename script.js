@@ -66,8 +66,15 @@ async function handleRaceFriend() {
     return;
   }
 
-  const myRun = simulateDrag(myBuild);
-  const frRun = simulateDrag(friendBuild);
+  // reset bars
+  barYou.style.width = "0%";
+  barFriend.style.width = "0%";
+
+  // run both races at the same time
+  const [myRun, frRun] = await Promise.all([
+    simulateDragLive(myBuild, barYou),
+    simulateDragLive(friendBuild, barFriend)
+  ]);
 
   const winner = myRun.ft1320 < frRun.ft1320 ? "YOU WIN" : "FRIEND WINS";
 
