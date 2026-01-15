@@ -2,14 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Drag Tuner Simulator</title>
+  <title>Drag Racing School</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
-  <h1>Drag Tuner Simulator</h1>
-  <img src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg" class="flag">
+  <div class="logoBlock">
+    <div class="logoIcon">
+      <div class="logoBulb white"></div>
+      <div class="logoBulb yellow"></div>
+      <div class="logoBulb green"></div>
+    </div>
+    <div class="logoText">
+      <div class="logoTitle">DRAG RACING SCHOOL</div>
+      <div class="logoSub">Tuning • Training • Timing</div>
+    </div>
+  </div>
+  <div class="headerRight">
+    <span class="modeLabel">Advanced Tuning</span>
+    <label class="switch">
+      <input type="checkbox" id="advancedToggle">
+      <span class="slider"></span>
+    </label>
+  </div>
 </header>
 
 <div class="app">
@@ -19,18 +35,108 @@
     <h2>Your Build</h2>
 
     <div class="control">
-      <label>Car</label>
-      <select id="carSelect"></select>
+      <label for="carCategory">Car Category</label>
+      <select id="carCategory">
+        <option value="all">All</option>
+        <option value="muscle">Muscle</option>
+        <option value="jdm">JDM</option>
+        <option value="truck">Trucks</option>
+        <option value="exotic">Exotics</option>
+        <option value="drag">Drag Cars</option>
+        <option value="classic">Classics</option>
+        <option value="hyper">Hypercars</option>
+        <option value="electric">Electric</option>
+      </select>
     </div>
 
     <div class="control">
-      <label>Engine</label>
-      <select id="engineSelect"></select>
+      <label for="carInput">Car</label>
+      <input id="carInput" list="carList" placeholder="Search car...">
+      <datalist id="carList"></datalist>
     </div>
 
     <div class="control">
-      <label>Tires</label>
-      <select id="tireSelect"></select>
+      <label for="engineInput">Engine</label>
+      <input id="engineInput" list="engineList" placeholder="Search engine...">
+      <datalist id="engineList"></datalist>
+    </div>
+
+    <div class="control">
+      <label for="tireInput">Tires</label>
+      <input id="tireInput" list="tireList" placeholder="Search tires...">
+      <datalist id="tireList"></datalist>
+    </div>
+
+    <div class="control">
+      <label for="drivetrainInput">Drivetrain</label>
+      <input id="drivetrainInput" list="drivetrainList" placeholder="Search drivetrain...">
+      <datalist id="drivetrainList"></datalist>
+    </div>
+
+    <div id="simpleTuning">
+      <h3>Simple Tuning</h3>
+      <div class="control">
+        <label for="weightReduction">Weight Reduction</label>
+        <input type="range" id="weightReduction" min="0" max="300" step="25" value="0">
+        <span id="weightReductionValue">0 lb</span>
+      </div>
+      <div class="control">
+        <label for="boostLevel">Boost Level</label>
+        <input type="range" id="boostLevel" min="0" max="20" step="1" value="0">
+        <span id="boostLevelValue">0 psi</span>
+      </div>
+    </div>
+
+    <div id="advancedTuning" class="hidden">
+      <h3>Advanced Tuning</h3>
+
+      <div class="control">
+        <label for="pistonsInput">Pistons</label>
+        <input id="pistonsInput" list="pistonsList" placeholder="Search pistons...">
+        <datalist id="pistonsList"></datalist>
+      </div>
+
+      <div class="control">
+        <label for="rodsInput">Rods</label>
+        <input id="rodsInput" list="rodsList" placeholder="Search rods...">
+        <datalist id="rodsList"></datalist>
+      </div>
+
+      <div class="control">
+        <label for="camInput">Camshaft</label>
+        <input id="camInput" list="camList" placeholder="Search camshaft...">
+        <datalist id="camList"></datalist>
+      </div>
+
+      <div class="control">
+        <label for="forcedInductionInput">Turbo / Supercharger</label>
+        <input id="forcedInductionInput" list="forcedInductionList" placeholder="Search turbo/supercharger...">
+        <datalist id="forcedInductionList"></datalist>
+      </div>
+
+      <div class="control">
+        <label for="nitrousInput">Nitrous</label>
+        <input id="nitrousInput" list="nitrousList" placeholder="Search nitrous...">
+        <datalist id="nitrousList"></datalist>
+      </div>
+
+      <div class="control">
+        <label for="fuelInput">Fuel Type</label>
+        <input id="fuelInput" list="fuelList" placeholder="Search fuel...">
+        <datalist id="fuelList"></datalist>
+      </div>
+
+      <div class="control">
+        <label for="gearInput">Gear Set</label>
+        <input id="gearInput" list="gearList" placeholder="Search gears...">
+        <datalist id="gearList"></datalist>
+      </div>
+
+      <div class="control">
+        <label for="suspensionInput">Suspension</label>
+        <input id="suspensionInput" list="suspensionList" placeholder="Search suspension...">
+        <datalist id="suspensionList"></datalist>
+      </div>
     </div>
 
     <div id="stats"></div>
@@ -47,27 +153,34 @@
   <div class="center">
     <h2>Staging Tree</h2>
 
+    <div class="treeWatermark">
+      <span>Drag Racing School</span>
+    </div>
+
     <div id="treeContainer">
       <div class="treeColumn">
         <div class="treeLabel">PRE‑STAGE</div>
-        <div class="bulb pre"></div>
+        <div class="bulb pre white"></div>
 
         <div class="treeLabel">STAGE</div>
-        <div class="bulb stage"></div>
+        <div class="bulb stage white"></div>
 
         <div class="treeSpacer"></div>
 
         <div class="treeLabel small">YELLOW</div>
-        <div class="bulb yellow1"></div>
+        <div class="bulb yellow1 yellow"></div>
 
         <div class="treeLabel small">YELLOW</div>
-        <div class="bulb yellow2"></div>
+        <div class="bulb yellow2 yellow"></div>
 
         <div class="treeLabel small">YELLOW</div>
-        <div class="bulb yellow3"></div>
+        <div class="bulb yellow3 yellow"></div>
 
         <div class="treeLabel">GREEN</div>
-        <div class="bulb green"></div>
+        <div class="bulb green greenBulb"></div>
+
+        <div class="treeLabel">RED</div>
+        <div class="bulb red redBulb"></div>
       </div>
     </div>
   </div>
