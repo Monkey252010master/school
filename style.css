@@ -435,3 +435,9 @@ body.advancedMode .headerBtn {
 .hidden {
   display: none;
 }
+
+.switchGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

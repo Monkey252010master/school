@@ -22,12 +22,14 @@
 <div class="headerRight">
   <span id="tuningModeLabel">Simple Tuning</span>
 
-  <label class="switch">
-    <input type="checkbox" id="advancedToggle">
-    <span class="slider"></span>
-  </label>
+  <div class="switchGroup">
+    <label class="switch">
+      <input type="checkbox" id="advancedToggle">
+      <span class="slider"></span>
+    </label>
 
-  <button id="openDictionaryBtn" class="headerBtn">Synergy Dictionary</button>
+    <button id="openDictionaryBtn" class="headerBtn">Synergy Dictionary</button>
+  </div>
 </div>
 </header>
 
@@ -204,6 +206,15 @@
     <div id="raceOutput"></div>
   </div>
 
+</div>
+
+<!-- ⭐ ADD THIS RIGHT ABOVE THE SCRIPT TAG ⭐ -->
+<div id="dictionaryOverlay" class="hidden">
+  <div class="dictionaryContent">
+    <button id="closeDictionaryBtn">✖</button>
+    <h2>Synergy Dictionary</h2>
+    <pre id="dictionaryText"></pre>
+  </div>
 </div>
 
 <script type="module" src="script.js"></script>
