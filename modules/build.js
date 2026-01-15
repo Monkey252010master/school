@@ -34,9 +34,10 @@ export const tires = [
 ];
 
 export const drivetrains = [
-  { id: "auto", name: "Automatic", launch: 1.0 },
-  { id: "manual", name: "Manual", launch: 0.95 },
-  { id: "dual_clutch", name: "Dual Clutch", launch: 1.05 }
+  { id: "rwd", name: "RWD", launch: 1.00 },
+  { id: "fwd", name: "FWD", launch: 0.90 },
+  { id: "awd", name: "AWD", launch: 1.15 },
+  { id: "4wd", name: "4WD", launch: 1.20 }
 ];
 
 // Advanced parts

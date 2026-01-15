@@ -5,7 +5,7 @@
   <title>Drag Racing School</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="simpleMode">
 
 <header>
   <div class="logoBlock">
@@ -20,7 +20,7 @@
     </div>
   </div>
   <div class="headerRight">
-    <span class="modeLabel">Advanced Tuning</span>
+    <span id="tuningModeLabel">Simple Tuning</span>
     <label class="switch">
       <input type="checkbox" id="advancedToggle">
       <span class="slider"></span>
@@ -56,21 +56,18 @@
     </div>
 
     <div class="control">
-      <label for="engineInput">Engine</label>
-      <input id="engineInput" list="engineList" placeholder="Search engine...">
-      <datalist id="engineList"></datalist>
+      <label for="engineSelect">Engine</label>
+      <select id="engineSelect"></select>
     </div>
 
     <div class="control">
-      <label for="tireInput">Tires</label>
-      <input id="tireInput" list="tireList" placeholder="Search tires...">
-      <datalist id="tireList"></datalist>
+      <label for="tireSelect">Tires</label>
+      <select id="tireSelect"></select>
     </div>
 
     <div class="control">
-      <label for="drivetrainInput">Drivetrain</label>
-      <input id="drivetrainInput" list="drivetrainList" placeholder="Search drivetrain...">
-      <datalist id="drivetrainList"></datalist>
+      <label for="drivetrainSelect">Drivetrain</label>
+      <select id="drivetrainSelect"></select>
     </div>
 
     <div id="simpleTuning">
@@ -91,51 +88,43 @@
       <h3>Advanced Tuning</h3>
 
       <div class="control">
-        <label for="pistonsInput">Pistons</label>
-        <input id="pistonsInput" list="pistonsList" placeholder="Search pistons...">
-        <datalist id="pistonsList"></datalist>
+        <label for="pistonsSelect">Pistons</label>
+        <select id="pistonsSelect"></select>
       </div>
 
       <div class="control">
-        <label for="rodsInput">Rods</label>
-        <input id="rodsInput" list="rodsList" placeholder="Search rods...">
-        <datalist id="rodsList"></datalist>
+        <label for="rodsSelect">Rods</label>
+        <select id="rodsSelect"></select>
       </div>
 
       <div class="control">
-        <label for="camInput">Camshaft</label>
-        <input id="camInput" list="camList" placeholder="Search camshaft...">
-        <datalist id="camList"></datalist>
+        <label for="camSelect">Camshaft</label>
+        <select id="camSelect"></select>
       </div>
 
       <div class="control">
-        <label for="forcedInductionInput">Turbo / Supercharger</label>
-        <input id="forcedInductionInput" list="forcedInductionList" placeholder="Search turbo/supercharger...">
-        <datalist id="forcedInductionList"></datalist>
+        <label for="forcedInductionSelect">Turbo / Supercharger</label>
+        <select id="forcedInductionSelect"></select>
       </div>
 
       <div class="control">
-        <label for="nitrousInput">Nitrous</label>
-        <input id="nitrousInput" list="nitrousList" placeholder="Search nitrous...">
-        <datalist id="nitrousList"></datalist>
+        <label for="nitrousSelect">Nitrous</label>
+        <select id="nitrousSelect"></select>
       </div>
 
       <div class="control">
-        <label for="fuelInput">Fuel Type</label>
-        <input id="fuelInput" list="fuelList" placeholder="Search fuel...">
-        <datalist id="fuelList"></datalist>
+        <label for="fuelSelect">Fuel Type</label>
+        <select id="fuelSelect"></select>
       </div>
 
       <div class="control">
-        <label for="gearInput">Gear Set</label>
-        <input id="gearInput" list="gearList" placeholder="Search gears...">
-        <datalist id="gearList"></datalist>
+        <label for="gearSelect">Gear Set</label>
+        <select id="gearSelect"></select>
       </div>
 
       <div class="control">
-        <label for="suspensionInput">Suspension</label>
-        <input id="suspensionInput" list="suspensionList" placeholder="Search suspension...">
-        <datalist id="suspensionList"></datalist>
+        <label for="suspensionSelect">Suspension</label>
+        <select id="suspensionSelect"></select>
       </div>
     </div>
 

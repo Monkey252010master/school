@@ -1,10 +1,21 @@
 /* GLOBAL */
 body {
   margin: 0;
-  background: radial-gradient(circle at top, #0a1a2f, #05080f 70%);
   color: #e8f1f2;
   font-family: system-ui, sans-serif;
   background-attachment: fixed;
+}
+
+/* SIMPLE / ADVANCED BACKGROUNDS */
+body.simpleMode {
+  background: radial-gradient(circle at top, #0a1a2f, #05080f 70%);
+}
+
+body.advancedMode {
+  background:
+    url("https://www.transparenttextures.com/patterns/carbon-fibre.png"),
+    radial-gradient(circle at top, #220707, #050101 70%);
+  background-size: 200px 200px, cover;
 }
 
 /* HEADER */
@@ -78,9 +89,9 @@ header {
   gap: 10px;
 }
 
-.modeLabel {
+#tuningModeLabel {
   font-size: 13px;
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 /* TOGGLE SWITCH */
@@ -143,7 +154,7 @@ header {
   overflow-y: auto;
 }
 
-/* THEMES */
+/* PANEL THEMES */
 body.simpleMode .left,
 body.simpleMode .right {
   background: rgba(10, 25, 47, 0.35);
@@ -154,29 +165,26 @@ body.simpleMode .center {
 }
 
 body.advancedMode .left,
-body.advancedMode .right {
-  background: radial-gradient(circle at top, #220707, #050101 70%);
-}
-
+body.advancedMode .right,
 body.advancedMode .center {
-  background: radial-gradient(circle at top, #2b0b0b, #050101 70%);
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  border: 1px solid #550000;
 }
 
-/* LEFT PANEL */
+/* PANEL BORDERS / Z-INDEX */
 .left {
   border-right: 2px solid #1b263b;
   position: relative;
   z-index: 50;
 }
 
-/* CENTER PANEL */
 .center {
   border-right: 2px solid #1b263b;
   position: relative;
   z-index: 1;
 }
 
-/* RIGHT PANEL */
 .right {
   position: relative;
   z-index: 20;

@@ -22,38 +22,18 @@ const carCategorySelect = document.getElementById("carCategory");
 const carInput = document.getElementById("carInput");
 const carList = document.getElementById("carList");
 
-const engineInput = document.getElementById("engineInput");
-const engineList = document.getElementById("engineList");
+const engineSelect = document.getElementById("engineSelect");
+const tireSelect = document.getElementById("tireSelect");
+const drivetrainSelect = document.getElementById("drivetrainSelect");
 
-const tireInput = document.getElementById("tireInput");
-const tireList = document.getElementById("tireList");
-
-const drivetrainInput = document.getElementById("drivetrainInput");
-const drivetrainList = document.getElementById("drivetrainList");
-
-const pistonsInput = document.getElementById("pistonsInput");
-const pistonsList = document.getElementById("pistonsList");
-
-const rodsInput = document.getElementById("rodsInput");
-const rodsList = document.getElementById("rodsList");
-
-const camInput = document.getElementById("camInput");
-const camList = document.getElementById("camList");
-
-const forcedInductionInput = document.getElementById("forcedInductionInput");
-const forcedInductionList = document.getElementById("forcedInductionList");
-
-const nitrousInput = document.getElementById("nitrousInput");
-const nitrousList = document.getElementById("nitrousList");
-
-const fuelInput = document.getElementById("fuelInput");
-const fuelList = document.getElementById("fuelList");
-
-const gearInput = document.getElementById("gearInput");
-const gearList = document.getElementById("gearList");
-
-const suspensionInput = document.getElementById("suspensionInput");
-const suspensionList = document.getElementById("suspensionList");
+const pistonsSelect = document.getElementById("pistonsSelect");
+const rodsSelect = document.getElementById("rodsSelect");
+const camSelect = document.getElementById("camSelect");
+const forcedInductionSelect = document.getElementById("forcedInductionSelect");
+const nitrousSelect = document.getElementById("nitrousSelect");
+const fuelSelect = document.getElementById("fuelSelect");
+const gearSelect = document.getElementById("gearSelect");
+const suspensionSelect = document.getElementById("suspensionSelect");
 
 const weightReductionRange = document.getElementById("weightReduction");
 const weightReductionValue = document.getElementById("weightReductionValue");
@@ -71,14 +51,25 @@ const barFriend = document.getElementById("barFriend");
 
 const advancedToggle = document.getElementById("advancedToggle");
 const advancedTuningSection = document.getElementById("advancedTuning");
+const tuningModeLabel = document.getElementById("tuningModeLabel");
 
-// Populate datalists
+// Helpers
 function populateDatalist(datalist, list) {
   datalist.innerHTML = "";
   list.forEach(item => {
     const opt = document.createElement("option");
     opt.value = item.name;
     datalist.appendChild(opt);
+  });
+}
+
+function populateSelect(select, list) {
+  select.innerHTML = "";
+  list.forEach(item => {
+    const opt = document.createElement("option");
+    opt.value = item.name;
+    opt.textContent = item.name;
+    select.appendChild(opt);
   });
 }
 
@@ -93,37 +84,40 @@ function refreshCarList() {
   populateDatalist(carList, filtered);
 }
 
-populateDatalist(engineList, engines);
-populateDatalist(tireList, tires);
-populateDatalist(drivetrainList, drivetrains);
-populateDatalist(pistonsList, pistons);
-populateDatalist(rodsList, rods);
-populateDatalist(camList, cams);
-populateDatalist(forcedInductionList, forcedInduction);
-populateDatalist(nitrousList, nitrous);
-populateDatalist(fuelList, fuels);
-populateDatalist(gearList, gears);
-populateDatalist(suspensionList, suspensions);
+// Populate controls
+populateDatalist(carList, cars);
+populateSelect(engineSelect, engines);
+populateSelect(tireSelect, tires);
+populateSelect(drivetrainSelect, drivetrains);
+populateSelect(pistonsSelect, pistons);
+populateSelect(rodsSelect, rods);
+populateSelect(camSelect, cams);
+populateSelect(forcedInductionSelect, forcedInduction);
+populateSelect(nitrousSelect, nitrous);
+populateSelect(fuelSelect, fuels);
+populateSelect(gearSelect, gears);
+populateSelect(suspensionSelect, suspensions);
 refreshCarList();
 
-// Default selections
+// Defaults
 carInput.value = cars[0].name;
-engineInput.value = engines[0].name;
-tireInput.value = tires[0].name;
-drivetrainInput.value = drivetrains[0].name;
+engineSelect.value = engines[0].name;
+tireSelect.value = tires[0].name;
+drivetrainSelect.value = "RWD";
 
-pistonsInput.value = pistons[0].name;
-rodsInput.value = rods[0].name;
-camInput.value = cams[0].name;
-forcedInductionInput.value = forcedInduction[0].name;
-nitrousInput.value = nitrous[0].name;
-fuelInput.value = fuels[0].name;
-gearInput.value = gears[0].name;
-suspensionInput.value = suspensions[0].name;
+pistonsSelect.value = pistons[0].name;
+rodsSelect.value = rods[0].name;
+camSelect.value = cams[0].name;
+forcedInductionSelect.value = forcedInduction[0].name;
+nitrousSelect.value = nitrous[0].name;
+fuelSelect.value = fuels[0].name;
+gearSelect.value = gears[0].name;
+suspensionSelect.value = suspensions[0].name;
 
 weightReductionValue.textContent = `${weightReductionRange.value} lb`;
 boostLevelValue.textContent = `${boostLevelRange.value} psi`;
 
+// Events
 weightReductionRange.addEventListener("input", () => {
   weightReductionValue.textContent = `${weightReductionRange.value} lb`;
   updateBuildStats();
@@ -143,50 +137,57 @@ carCategorySelect.addEventListener("change", () => {
 
 [
   carInput,
-  engineInput,
-  tireInput,
-  drivetrainInput,
-  pistonsInput,
-  rodsInput,
-  camInput,
-  forcedInductionInput,
-  nitrousInput,
-  fuelInput,
-  gearInput,
-  suspensionInput
-].forEach(input => {
-  input.addEventListener("change", updateBuildStats);
-  input.addEventListener("blur", updateBuildStats);
+  engineSelect,
+  tireSelect,
+  drivetrainSelect,
+  pistonsSelect,
+  rodsSelect,
+  camSelect,
+  forcedInductionSelect,
+  nitrousSelect,
+  fuelSelect,
+  gearSelect,
+  suspensionSelect
+].forEach(el => {
+  el.addEventListener("change", updateBuildStats);
+  el.addEventListener("blur", updateBuildStats);
 });
 
 advancedToggle.addEventListener("change", () => {
   const advancedOn = advancedToggle.checked;
+
+  tuningModeLabel.textContent = advancedOn
+    ? "Advanced Tuning"
+    : "Simple Tuning";
+
   advancedTuningSection.classList.toggle("hidden", !advancedOn);
   applyTheme(advancedOn);
   updateBuildStats();
 });
 
+// Initial theme
 applyTheme(false);
 advancedToggle.checked = false;
 advancedTuningSection.classList.add("hidden");
+tuningModeLabel.textContent = "Simple Tuning";
 
 function getSelection() {
   return {
     carName: carInput.value,
-    engineName: engineInput.value,
-    tireName: tireInput.value,
-    drivetrainName: drivetrainInput.value,
+    engineName: engineSelect.value,
+    tireName: tireSelect.value,
+    drivetrainName: drivetrainSelect.value,
     weightReduction: Number(weightReductionRange.value),
     boostLevel: Number(boostLevelRange.value),
     advancedOn: advancedToggle.checked,
-    pistonsName: pistonsInput.value,
-    rodsName: rodsInput.value,
-    camName: camInput.value,
-    forcedInductionName: forcedInductionInput.value,
-    nitrousName: nitrousInput.value,
-    fuelName: fuelInput.value,
-    gearName: gearInput.value,
-    suspensionName: suspensionInput.value
+    pistonsName: pistonsSelect.value,
+    rodsName: rodsSelect.value,
+    camName: camSelect.value,
+    forcedInductionName: forcedInductionSelect.value,
+    nitrousName: nitrousSelect.value,
+    fuelName: fuelSelect.value,
+    gearName: gearSelect.value,
+    suspensionName: suspensionSelect.value
   };
 }
 
