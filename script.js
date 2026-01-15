@@ -376,4 +376,6 @@ openDictionaryBtn.addEventListener("click", () => {
   dictionaryContent.textContent = JSON.stringify(synergy, null, 2);
 });
 
+
+
 updateBuildStats();
