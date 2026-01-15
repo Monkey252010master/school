@@ -1,7 +1,7 @@
 import { cars, engines, tires, getBuild } from "./modules/build.js";
 import { generateRaceCode } from "./modules/encode.js";
 import { decodeRaceCode } from "./modules/decode.js";
-import { simulateDrag } from "./modules/dragSim.js";
+import { simulateDragLive } from "./modules/dragSim.js";
 import { runStagingTree } from "./modules/ui.js";
 
 const carSelect = document.getElementById("carSelect");
@@ -13,6 +13,9 @@ const friendCodeInput = document.getElementById("friendCode");
 const raceFriendBtn = document.getElementById("raceFriendBtn");
 const statsDiv = document.getElementById("stats");
 const raceOutput = document.getElementById("raceOutput");
+
+const barYou = document.getElementById("barYou");
+const barFriend = document.getElementById("barFriend");
 
 function populate(select, list) {
   list.forEach(item => {
@@ -49,8 +52,7 @@ tireSelect.addEventListener("change", updateBuildStats);
 
 generateCodeBtn.addEventListener("click", () => {
   const build = updateBuildStats();
-  const code = generateRaceCode(build);
-  myRaceCodeInput.value = code;
+  myRaceCodeInput.value = generateRaceCode(build);
 });
 
 async function handleRaceFriend() {
@@ -66,11 +68,9 @@ async function handleRaceFriend() {
     return;
   }
 
-  // reset bars
   barYou.style.width = "0%";
   barFriend.style.width = "0%";
 
-  // run both races at the same time
   const [myRun, frRun] = await Promise.all([
     simulateDragLive(myBuild, barYou),
     simulateDragLive(friendBuild, barFriend)

@@ -7,85 +7,101 @@
 </head>
 <body>
 
+<header>
+  <h1>Drag Tuner Simulator</h1>
+  <img src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg" class="flag">
+</header>
+
 <div class="app">
 
+  <!-- LEFT PANEL -->
   <div class="left">
-    <h1>Drag Tuner Simulator</h1>
+
+    <h2>Your Build</h2>
 
     <div class="control">
-      <label for="carSelect">Car</label>
+      <label>Car</label>
       <select id="carSelect"></select>
     </div>
 
     <div class="control">
-      <label for="engineSelect">Engine</label>
+      <label>Engine</label>
       <select id="engineSelect"></select>
     </div>
 
     <div class="control">
-      <label for="tireSelect">Tires</label>
+      <label>Tires</label>
       <select id="tireSelect"></select>
     </div>
 
+    <div id="stats"></div>
+
     <button id="generateCode">Generate Race Code</button>
-    <input id="myRaceCode" readonly placeholder="Your race code will appear here">
+    <input id="myRaceCode" readonly placeholder="Your race code">
 
     <h2>Race a Friend</h2>
     <input id="friendCode" placeholder="Enter friend's code">
     <button id="raceFriendBtn">Start Race</button>
 
-  <h2>Staging Tree</h2>
-
-<div id="treeContainer">
-
-  <div class="treeColumn">
-    <div class="treeLabel">PRE‑STAGE</div>
-    <div class="bulb pre"></div>
-
-    <div class="treeLabel">STAGE</div>
-    <div class="bulb stage"></div>
-
-    <div class="treeSpacer"></div>
-
-    <div class="treeLabel small">YELLOW</div>
-    <div class="bulb yellow1"></div>
-
-    <div class="treeLabel small">YELLOW</div>
-    <div class="bulb yellow2"></div>
-
-    <div class="treeLabel small">YELLOW</div>
-    <div class="bulb yellow3"></div>
-
-    <div class="treeLabel">GREEN</div>
-    <div class="bulb green"></div>
   </div>
 
-</div>
+  <!-- CENTER PANEL (STAGING TREE) -->
+  <div class="center">
 
+    <h2>Staging Tree</h2>
+
+    <div id="treeContainer">
+      <div class="treeColumn">
+
+        <div class="treeLabel">PRE‑STAGE</div>
+        <div class="bulb pre"></div>
+
+        <div class="treeLabel">STAGE</div>
+        <div class="bulb stage"></div>
+
+        <div class="treeSpacer"></div>
+
+        <div class="treeLabel small">YELLOW</div>
+        <div class="bulb yellow1"></div>
+
+        <div class="treeLabel small">YELLOW</div>
+        <div class="bulb yellow2"></div>
+
+        <div class="treeLabel small">YELLOW</div>
+        <div class="bulb yellow3"></div>
+
+        <div class="treeLabel">GREEN</div>
+        <div class="bulb green"></div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT PANEL (RACE + RESULTS) -->
   <div class="right">
-    <h2>Your Build</h2>
-    <div id="stats"></div>
 
     <h2>Race Progress</h2>
 
-<div id="raceBars">
-  <div class="raceRow">
-    <span>You</span>
-    <div class="raceBarOuter">
-      <div id="barYou" class="raceBar"></div>
-    </div>
-  </div>
+    <div id="raceGrid">
+      <div class="lane">
+        <h3>You</h3>
+        <div class="raceBarOuter">
+          <div id="barYou" class="raceBar"></div>
+        </div>
+      </div>
 
-  <div class="raceRow">
-    <span>Friend</span>
-    <div class="raceBarOuter">
-      <div id="barFriend" class="raceBar"></div>
+      <div class="lane">
+        <h3>Friend</h3>
+        <div class="raceBarOuter">
+          <div id="barFriend" class="raceBar"></div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
     <h2>Race Results</h2>
     <div id="raceOutput"></div>
+
   </div>
 
 </div>

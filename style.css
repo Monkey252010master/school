@@ -1,64 +1,104 @@
+/* GLOBAL */
 body {
   margin: 0;
-  background: #0b0c10;
-  color: #fff;
+  background: radial-gradient(circle at top, #0a1a2f, #05080f 70%);
+  color: #e8f1f2;
   font-family: system-ui, sans-serif;
+  background-attachment: fixed;
 }
 
-.app {
+header {
   display: flex;
-  height: 100vh;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  background: rgba(10, 25, 47, 0.5);
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid #1b263b;
 }
 
-.left, .right {
-  padding: 20px;
+header h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #8fd3ff;
+  letter-spacing: 1px;
+}
+
+.flag {
+  width: 60px;
+  border-radius: 4px;
+  box-shadow: 0 0 10px #000;
+}
+
+/* LAYOUT */
+.app {
+  display: grid;
+  grid-template-columns: 1fr 300px 1fr;
+  height: calc(100vh - 80px);
+}
+
+.left, .center, .right {
+  padding: 25px;
+  overflow-y: auto;
 }
 
 .left {
-  flex: 1;
-  border-right: 1px solid #45a29e33;
+  background: rgba(10, 25, 47, 0.35);
+  border-right: 2px solid #1b263b;
+}
+
+.center {
+  background: rgba(10, 25, 47, 0.25);
+  border-right: 2px solid #1b263b;
 }
 
 .right {
-  flex: 1;
+  background: rgba(10, 25, 47, 0.35);
 }
 
-h1, h2 {
-  margin-top: 0;
-}
-
+/* CONTROLS */
 .control {
   margin-bottom: 15px;
 }
 
-label {
-  font-size: 14px;
-  color: #c5c6c7;
-}
-
 select, input, button {
   width: 100%;
-  padding: 8px;
-  border-radius: 6px;
+  padding: 10px;
+  border-radius: 8px;
   border: none;
   margin-top: 5px;
   box-sizing: border-box;
 }
 
 button {
-  background: #45a29e;
-  color: #0b0c10;
+  background: linear-gradient(90deg, #0077ff, #00bbff);
+  color: #fff;
   font-weight: bold;
   cursor: pointer;
+  box-shadow: 0 0 10px #0077ff;
+  transition: 0.2s;
 }
 
 button:hover {
-  background: #66fcf1;
+  box-shadow: 0 0 20px #00bbff;
+  transform: translateY(-2px);
 }
+
+/* STATS BOX */
+#stats {
+  padding: 15px;
+  background: #0d1b2a;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: inset 0 0 10px #000;
+  white-space: pre-line;
+}
+
+/* STAGING TREE */
 #treeContainer {
-  margin-top: 20px;
   display: flex;
   justify-content: center;
+  margin-top: 20px;
 }
 
 .treeColumn {
@@ -69,9 +109,8 @@ button:hover {
 
 .treeLabel {
   font-size: 12px;
-  color: #c5c6c7;
+  color: #8fd3ff;
   margin-bottom: 4px;
-  text-align: center;
 }
 
 .treeLabel.small {
@@ -79,74 +118,65 @@ button:hover {
   opacity: 0.7;
 }
 
-.treeSpacer {
-  height: 10px;
-}
-
 .bulb {
   width: 45px;
   height: 45px;
   border-radius: 50%;
   margin: 4px 0;
-  background: #222;
-  box-shadow: 0 0 10px #000;
+  background: #0d1b2a;
+  border: 2px solid #1b263b;
+  box-shadow: inset 0 0 10px #000;
 }
 
 .bulb.on {
-  background: yellow;
-  box-shadow: 0 0 20px yellow;
+  background: #00aaff;
+  box-shadow: 0 0 20px #00aaff;
 }
 
 .bulb.green.on {
-  background: #00ff00;
-  box-shadow: 0 0 20px #00ff00;
+  background: #00ffcc;
+  box-shadow: 0 0 20px #00ffcc;
 }
 
-#stats {
-  padding: 10px;
-  background: #1f2833;
-  border-radius: 8px;
-  font-size: 14px;
-  white-space: pre-line;
-}
-
-#raceOutput {
-  margin-top: 20px;
-  padding: 15px;
-  background: #1f2833;
-  border-radius: 8px;
-  min-height: 200px;
-  white-space: pre-line;
-  font-size: 14px;
-}
-
-#raceBars {
+/* RACE BARS */
+#raceGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
   margin-top: 20px;
 }
 
-.raceRow {
-  display: flex;
-  align-items: center;
+.lane h3 {
+  text-align: center;
+  color: #8fd3ff;
   margin-bottom: 10px;
 }
 
-.raceRow span {
-  width: 60px;
-  font-size: 14px;
-}
-
 .raceBarOuter {
-  flex: 1;
-  height: 20px;
-  background: #1f2833;
-  border-radius: 10px;
+  width: 100%;
+  height: 22px;
+  background: #0d1b2a;
+  border-radius: 12px;
   overflow: hidden;
-  margin-left: 10px;
+  border: 2px solid #1b263b;
+  box-shadow: inset 0 0 10px #000;
 }
 
 .raceBar {
   height: 100%;
   width: 0%;
-  background: #66fcf1;
+  background: linear-gradient(90deg, #00aaff, #66d9ff);
+  box-shadow: 0 0 15px #00aaff;
   transition: width 0.05s linear;
+}
+
+/* RESULTS */
+#raceOutput {
+  margin-top: 20px;
+  padding: 15px;
+  background: #0d1b2a;
+  border-radius: 10px;
+  box-shadow: inset 0 0 10px #000;
+  min-height: 200px;
+  white-space: pre-line;
 }
