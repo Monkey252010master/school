@@ -198,3 +198,20 @@ button:hover {
   min-height: 200px;
   white-space: pre-line;
 }
+
+select {
+  position: relative;
+  z-index: 1000;
+  background: #0d1b2a;
+  color: #e8f1f2;
+}
+
+select {
+  position: relative;
+  z-index: 1000;
+  background: #0d1b2a;
+  color: #e8f1f2;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
