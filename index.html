@@ -2,49 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Car Tuner Simulator</title>
+  <title>Drag Tuner Simulator</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="app">
-    <div class="left">
-      <h1>Car Tuner Simulator</h1>
 
-      <div class="control">
-        <label for="carSelect">Car</label>
-        <select id="carSelect"></select>
-      </div>
+<div class="app">
 
-      <div class="control">
-        <label for="engineSelect">Engine / Tune</label>
-        <select id="engineSelect"></select>
-      </div>
+  <div class="left">
+    <h1>Drag Tuner Simulator</h1>
 
-      <div class="control">
-        <label for="tireSelect">Tires</label>
-        <select id="tireSelect"></select>
-      </div>
-
-      <button id="runSim">Run Drag Simulation</button>
+    <div class="control">
+      <label for="carSelect">Car</label>
+      <select id="carSelect"></select>
     </div>
 
-    <div class="right">
-      <h2>Build Stats</h2>
-      <div class="stat-row"><span>Horsepower</span><span id="statHp">-</span></div>
-      <div class="stat-row"><span>Weight</span><span id="statWeight">-</span></div>
-      <div class="stat-row"><span>Power / Weight</span><span id="statPw">-</span></div>
-      <div class="stat-row"><span>Grip</span><span id="statGrip">-</span></div>
+    <div class="control">
+      <label for="engineSelect">Engine</label>
+      <select id="engineSelect"></select>
+    </div>
 
-      <h2>Estimated Performance</h2>
-      <div class="stat-row"><span>0–60 mph</span><span id="stat060">-</span></div>
-      <div class="stat-row"><span>1/4 Mile</span><span id="statQuarter">-</span></div>
-      <div class="stat-row"><span>Top Speed</span><span id="statTop">-</span></div>
-      <div class="stat-row"><span>Build Score</span><span id="statScore">-</span></div>
+    <div class="control">
+      <label for="tireSelect">Tires</label>
+      <select id="tireSelect"></select>
+    </div>
 
-      <div id="simResult"></div>
+    <button id="generateCode">Generate Race Code</button>
+    <input id="myRaceCode" readonly placeholder="Your race code will appear here">
+
+    <h2>Race a Friend</h2>
+    <input id="friendCode" placeholder="Enter friend's code">
+    <button id="raceFriendBtn">Start Race</button>
+
+    <h2>Staging Tree</h2>
+    <div id="stagingTree">
+      <div class="bulb pre"></div>
+      <div class="bulb stage"></div>
+      <div class="bulb yellow1"></div>
+      <div class="bulb yellow2"></div>
+      <div class="bulb yellow3"></div>
+      <div class="bulb green"></div>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <div class="right">
+    <h2>Your Build</h2>
+    <div id="stats"></div>
+
+    <h2>Race Results</h2>
+    <div id="raceOutput"></div>
+  </div>
+
+</div>
+
+<script type="module" src="script.js"></script>
 </body>
 </html>
