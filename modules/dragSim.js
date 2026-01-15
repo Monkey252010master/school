@@ -5,7 +5,6 @@ export async function simulateDragLive(build, barElement) {
 
   const dt = 0.01;
   const totalDistance = 1320;
-
   const tractionLimit = build.grip * 1.2;
 
   const checkpoints = {
@@ -27,7 +26,6 @@ export async function simulateDragLive(build, barElement) {
     distance += speed * dt;
     time += dt;
 
-    // update progress bar
     const pct = (distance / totalDistance) * 100;
     barElement.style.width = pct + "%";
 

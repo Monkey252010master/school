@@ -13,7 +13,6 @@ const friendCodeInput = document.getElementById("friendCode");
 const raceFriendBtn = document.getElementById("raceFriendBtn");
 const statsDiv = document.getElementById("stats");
 const raceOutput = document.getElementById("raceOutput");
-
 const barYou = document.getElementById("barYou");
 const barFriend = document.getElementById("barFriend");
 
