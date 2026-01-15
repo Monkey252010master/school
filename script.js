@@ -11,7 +11,8 @@ import {
   fuels,
   gears,
   suspensions,
-  getBuild
+  getBuild,
+  generateRankedOpponent
 } from "./modules/build.js";
 import { generateRaceCode } from "./modules/encode.js";
 import { decodeRaceCode } from "./modules/decode.js";
@@ -45,6 +46,7 @@ const generateCodeBtn = document.getElementById("generateCode");
 const myRaceCodeInput = document.getElementById("myRaceCode");
 const friendCodeInput = document.getElementById("friendCode");
 const raceFriendBtn = document.getElementById("raceFriendBtn");
+const raceSoloBtn = document.getElementById("raceSoloBtn");
 const raceOutput = document.getElementById("raceOutput");
 const barYou = document.getElementById("barYou");
 const barFriend = document.getElementById("barFriend");
@@ -204,13 +206,23 @@ function updateBuildStats() {
     `Car: ${build.car.name}
 Engine: ${build.engine.name}
 Tires: ${build.tire.name}
-Drivetrain: ${build.drivetrain.name}
+Drivetrain: ${build.drivetrainName}
 
 Horsepower: ${build.hp.toFixed(0)} hp
 Weight: ${build.weight.toFixed(0)} lb
 Power/Weight: ${build.pw.toFixed(3)}
 Grip: ${build.grip.toFixed(2)}
 Launch Factor: ${build.launch.toFixed(2)}
+
+Boost: ${build.boostLevel.toFixed(0)} psi
+Safe Boost: ${build.safeBoost.toFixed(0)} psi
+Warn Boost: ${build.warnBoost.toFixed(0)} psi
+Danger Boost: ${build.dangerBoost.toFixed(0)} psi
+
+Synergy Score: ${build.synergyScore.toFixed(1)}
+DNF Risk: ${(build.dnfChance * 100).toFixed(1)}%
+Wreck Risk: ${(build.wreckChance * 100).toFixed(1)}%
+Rank: ${build.rank.toUpperCase()}
 
 Mode: ${build.advancedOn ? "Advanced" : "Simple"}`;
 
@@ -251,14 +263,18 @@ async function handleRaceFriend() {
     hp: myBuild.hp,
     weight: myBuild.weight,
     grip: myBuild.grip,
-    launch: myBuild.launch
+    launch: myBuild.launch,
+    dnfChance: myBuild.dnfChance,
+    wreckChance: myBuild.wreckChance
   };
 
   const friendSimBuild = {
     hp: friendDecoded.hp,
     weight: friendDecoded.weight,
     grip: friendDecoded.grip,
-    launch: friendDecoded.launch
+    launch: friendDecoded.launch,
+    dnfChance: 0.02,
+    wreckChance: 0.02
   };
 
   const [myRun, frRun] = await Promise.all([
@@ -266,26 +282,87 @@ async function handleRaceFriend() {
     simulateDragLive(friendSimBuild, barFriend)
   ]);
 
-  const winner = myRun.ft1320 < frRun.ft1320 ? "YOU WIN" : "FRIEND WINS";
+  const resultText = formatRaceResults("Friend", myRun, frRun);
+  raceOutput.textContent = resultText;
+}
 
-  raceOutput.textContent =
-    `Your Run:
+raceFriendBtn.addEventListener("click", handleRaceFriend);
+
+async function handleRaceSolo() {
+  raceOutput.textContent = "Staging...";
+  await runStagingTree();
+
+  const myBuild = updateBuildStats();
+  if (!myBuild) {
+    raceOutput.textContent = "Your build is incomplete.";
+    return;
+  }
+
+  barYou.style.width = "0%";
+  barFriend.style.width = "0%";
+
+  const mySimBuild = {
+    hp: myBuild.hp,
+    weight: myBuild.weight,
+    grip: myBuild.grip,
+    launch: myBuild.launch,
+    dnfChance: myBuild.dnfChance,
+    wreckChance: myBuild.wreckChance
+  };
+
+  const rival = generateRankedOpponent(myBuild);
+
+  const rivalSimBuild = {
+    hp: rival.hp,
+    weight: rival.weight,
+    grip: rival.grip,
+    launch: rival.launch,
+    dnfChance: rival.dnfChance,
+    wreckChance: rival.wreckChance
+  };
+
+  const [myRun, rivalRun] = await Promise.all([
+    simulateDragLive(mySimBuild, barYou),
+    simulateDragLive(rivalSimBuild, barFriend)
+  ]);
+
+  const resultText = formatRaceResults(`Rival (${rival.car.name})`, myRun, rivalRun);
+  raceOutput.textContent = resultText;
+}
+
+raceSoloBtn.addEventListener("click", handleRaceSolo);
+
+function formatRaceResults(opponentLabel, myRun, oppRun) {
+  if (myRun.dnf || myRun.wreck || oppRun.dnf || oppRun.wreck) {
+    let msg = "";
+
+    if (myRun.dnf) msg += "YOU DNF: " + myRun.reason + "\n";
+    if (myRun.wreck) msg += "YOU WRECKED: " + myRun.reason + "\n";
+
+    if (oppRun.dnf) msg += `${opponentLabel} DNF: ${oppRun.reason}\n`;
+    if (oppRun.wreck) msg += `${opponentLabel} WRECKED: ${oppRun.reason}\n`;
+
+    if (!msg) msg = "Both cars failed for unknown reasons.";
+    return msg;
+  }
+
+  const winner = myRun.ft1320 < oppRun.ft1320 ? "YOU WIN" : `${opponentLabel.toUpperCase()} WINS`;
+
+  return `Your Run:
 60ft: ${myRun.ft60.toFixed(2)}
 330ft: ${myRun.ft330.toFixed(2)}
 1/8: ${myRun.ft660.toFixed(2)} @ ${myRun.trap.toFixed(1)} mph
 1000ft: ${myRun.ft1000.toFixed(2)}
 1/4: ${myRun.ft1320.toFixed(2)}
 
-Friend:
-60ft: ${frRun.ft60.toFixed(2)}
-330ft: ${frRun.ft330.toFixed(2)}
-1/8: ${frRun.ft660.toFixed(2)} @ ${frRun.trap.toFixed(1)} mph
-1000ft: ${frRun.ft1000.toFixed(2)}
-1/4: ${frRun.ft1320.toFixed(2)}
+${opponentLabel}:
+60ft: ${oppRun.ft60.toFixed(2)}
+330ft: ${oppRun.ft330.toFixed(2)}
+1/8: ${oppRun.ft660.toFixed(2)} @ ${oppRun.trap.toFixed(1)} mph
+1000ft: ${oppRun.ft1000.toFixed(2)}
+1/4: ${oppRun.ft1320.toFixed(2)}
 
 ${winner}`;
 }
-
-raceFriendBtn.addEventListener("click", handleRaceFriend);
 
 updateBuildStats();

@@ -13,14 +13,26 @@ export async function simulateDragLive(buildLike, barElement) {
 
   const tractionLimit = grip * 1.3 * launchMult;
 
+  const dnfChance = buildLike.dnfChance || 0;
+  const wreckChance = buildLike.wreckChance || 0;
+
   const checkpoints = {
     ft60: null,
     ft330: null,
     ft660: null,
     ft1000: null,
     ft1320: null,
-    trap: null
+    trap: null,
+    dnf: false,
+    wreck: false,
+    reason: ""
   };
+
+  const dnfRoll = Math.random();
+  const wreckRoll = Math.random();
+
+  let dnfTriggered = false;
+  let wreckTriggered = false;
 
   while (distance < totalDistance) {
     const force = (hp * 5252) / Math.max(speed, 1);
@@ -40,11 +52,31 @@ export async function simulateDragLive(buildLike, barElement) {
     if (!checkpoints.ft660 && distance >= 660) checkpoints.ft660 = time;
     if (!checkpoints.ft1000 && distance >= 1000) checkpoints.ft1000 = time;
 
+    if (!dnfTriggered && dnfChance > 0 && time > 0.5) {
+      if (dnfRoll < dnfChance) {
+        dnfTriggered = true;
+        checkpoints.dnf = true;
+        checkpoints.reason = "Engine failure (too much stress / boost).";
+        break;
+      }
+    }
+
+    if (!wreckTriggered && wreckChance > 0 && time > 0.3) {
+      if (wreckRoll < wreckChance) {
+        wreckTriggered = true;
+        checkpoints.wreck = true;
+        checkpoints.reason = "Loss of control (traction / handling).";
+        break;
+      }
+    }
+
     await new Promise(res => setTimeout(res, 3));
   }
 
-  checkpoints.ft1320 = time;
-  checkpoints.trap = speed * 0.681818;
+  if (!checkpoints.dnf && !checkpoints.wreck) {
+    checkpoints.ft1320 = time;
+    checkpoints.trap = speed * 0.681818;
+  }
 
   return checkpoints;
 }
