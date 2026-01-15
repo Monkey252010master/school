@@ -12,12 +12,19 @@ import {
   gears,
   suspensions,
   getBuild,
-  generateRankedOpponent
+  generateRankedOpponent,
+  synergy
 } from "./modules/build.js";
+
 import { generateRaceCode } from "./modules/encode.js";
 import { decodeRaceCode } from "./modules/decode.js";
 import { simulateDragLive } from "./modules/dragSim.js";
 import { runStagingTree, applyTheme } from "./modules/ui.js";
+
+
+// ===============================
+// ELEMENT REFERENCES
+// ===============================
 
 const carCategorySelect = document.getElementById("carCategory");
 const carInput = document.getElementById("carInput");
@@ -55,7 +62,42 @@ const advancedToggle = document.getElementById("advancedToggle");
 const advancedTuningSection = document.getElementById("advancedTuning");
 const tuningModeLabel = document.getElementById("tuningModeLabel");
 
-// Helpers
+
+// ===============================
+// SYNERGY DICTIONARY OVERLAY
+// ===============================
+
+const openDictionaryBtn = document.getElementById("openDictionaryBtn");
+const dictionaryOverlay = document.getElementById("dictionaryOverlay");
+const dictionaryText = document.getElementById("dictionaryText");
+const closeDictionaryBtn = document.getElementById("closeDictionaryBtn");
+
+openDictionaryBtn.addEventListener("click", () => {
+  dictionaryOverlay.classList.remove("hidden");
+
+  // Format synergy dictionary nicely
+  const entries = Object.entries(synergy);
+  const formatted = entries
+    .map(([key, val]) => {
+      const inner = Object.entries(val)
+        .map(([k, v]) => `  ${k}: ${v}`)
+        .join("\n");
+      return `${key}:\n${inner}`;
+    })
+    .join("\n\n");
+
+  dictionaryText.textContent = formatted;
+});
+
+closeDictionaryBtn.addEventListener("click", () => {
+  dictionaryOverlay.classList.add("hidden");
+});
+
+
+// ===============================
+// HELPERS
+// ===============================
+
 function populateDatalist(datalist, list) {
   datalist.innerHTML = "";
   list.forEach(item => {
@@ -86,7 +128,11 @@ function refreshCarList() {
   populateDatalist(carList, filtered);
 }
 
-// Populate controls
+
+// ===============================
+// INITIAL POPULATION
+// ===============================
+
 populateDatalist(carList, cars);
 populateSelect(engineSelect, engines);
 populateSelect(tireSelect, tires);
@@ -101,25 +147,72 @@ populateSelect(gearSelect, gears);
 populateSelect(suspensionSelect, suspensions);
 refreshCarList();
 
-// Defaults
 carInput.value = cars[0].name;
-engineSelect.value = engines[0].name;
-tireSelect.value = tires[0].name;
-drivetrainSelect.value = "RWD";
 
-pistonsSelect.value = pistons[0].name;
-rodsSelect.value = rods[0].name;
-camSelect.value = cams[0].name;
-forcedInductionSelect.value = forcedInduction[0].name;
-nitrousSelect.value = nitrous[0].name;
-fuelSelect.value = fuels[0].name;
-gearSelect.value = gears[0].name;
-suspensionSelect.value = suspensions[0].name;
 
-weightReductionValue.textContent = `${weightReductionRange.value} lb`;
-boostLevelValue.textContent = `${boostLevelRange.value} psi`;
+// ===============================
+// UPDATE BUILD STATS
+// ===============================
 
-// Events
+function getSelection() {
+  return {
+    carName: carInput.value,
+    engineName: engineSelect.value,
+    tireName: tireSelect.value,
+    drivetrainName: drivetrainSelect.value,
+    weightReduction: Number(weightReductionRange.value),
+    boostLevel: Number(boostLevelRange.value),
+    advancedOn: advancedToggle.checked,
+    pistonsName: pistonsSelect.value,
+    rodsName: rodsSelect.value,
+    camName: camSelect.value,
+    forcedInductionName: forcedInductionSelect.value,
+    nitrousName: nitrousSelect.value,
+    fuelName: fuelSelect.value,
+    gearName: gearSelect.value,
+    suspensionName: suspensionSelect.value
+  };
+}
+
+function updateBuildStats() {
+  const selection = getSelection();
+  const build = getBuild(selection);
+
+  if (!build) {
+    statsDiv.textContent = "Incomplete build.";
+    return null;
+  }
+
+  statsDiv.textContent =
+    `Car: ${build.car.name}
+Engine: ${build.engine.name}
+Tires: ${build.tire.name}
+Drivetrain: ${build.drivetrainName}
+
+Horsepower: ${build.hp.toFixed(0)} hp
+Weight: ${build.weight.toFixed(0)} lb
+Power/Weight: ${build.pw.toFixed(3)}
+Grip: ${build.grip.toFixed(2)}
+Launch: ${build.launch.toFixed(2)}
+
+Boost: ${build.boostLevel} psi
+Safe Boost: ${build.safeBoost} psi
+Warn Boost: ${build.warnBoost} psi
+Danger Boost: ${build.dangerBoost} psi
+
+Synergy Score: ${build.synergyScore.toFixed(1)}
+DNF Risk: ${(build.dnfChance * 100).toFixed(1)}%
+Wreck Risk: ${(build.wreckChance * 100).toFixed(1)}%
+Rank: ${build.rank.toUpperCase()}`;
+
+  return build;
+}
+
+
+// ===============================
+// EVENT LISTENERS
+// ===============================
+
 weightReductionRange.addEventListener("input", () => {
   weightReductionValue.textContent = `${weightReductionRange.value} lb`;
   updateBuildStats();
@@ -167,67 +260,10 @@ advancedToggle.addEventListener("change", () => {
   updateBuildStats();
 });
 
-// Initial theme
-applyTheme(false);
-advancedToggle.checked = false;
-advancedTuningSection.classList.add("hidden");
-tuningModeLabel.textContent = "Simple Tuning";
 
-function getSelection() {
-  return {
-    carName: carInput.value,
-    engineName: engineSelect.value,
-    tireName: tireSelect.value,
-    drivetrainName: drivetrainSelect.value,
-    weightReduction: Number(weightReductionRange.value),
-    boostLevel: Number(boostLevelRange.value),
-    advancedOn: advancedToggle.checked,
-    pistonsName: pistonsSelect.value,
-    rodsName: rodsSelect.value,
-    camName: camSelect.value,
-    forcedInductionName: forcedInductionSelect.value,
-    nitrousName: nitrousSelect.value,
-    fuelName: fuelSelect.value,
-    gearName: gearSelect.value,
-    suspensionName: suspensionSelect.value
-  };
-}
-
-function updateBuildStats() {
-  const selection = getSelection();
-  const build = getBuild(selection);
-
-  if (!build) {
-    statsDiv.textContent = "Incomplete build. Check your selections.";
-    return null;
-  }
-
-  statsDiv.textContent =
-    `Car: ${build.car.name}
-Engine: ${build.engine.name}
-Tires: ${build.tire.name}
-Drivetrain: ${build.drivetrainName}
-
-Horsepower: ${build.hp.toFixed(0)} hp
-Weight: ${build.weight.toFixed(0)} lb
-Power/Weight: ${build.pw.toFixed(3)}
-Grip: ${build.grip.toFixed(2)}
-Launch Factor: ${build.launch.toFixed(2)}
-
-Boost: ${build.boostLevel.toFixed(0)} psi
-Safe Boost: ${build.safeBoost.toFixed(0)} psi
-Warn Boost: ${build.warnBoost.toFixed(0)} psi
-Danger Boost: ${build.dangerBoost.toFixed(0)} psi
-
-Synergy Score: ${build.synergyScore.toFixed(1)}
-DNF Risk: ${(build.dnfChance * 100).toFixed(1)}%
-Wreck Risk: ${(build.wreckChance * 100).toFixed(1)}%
-Rank: ${build.rank.toUpperCase()}
-
-Mode: ${build.advancedOn ? "Advanced" : "Simple"}`;
-
-  return build;
-}
+// ===============================
+// GENERATE RACE CODE
+// ===============================
 
 generateCodeBtn.addEventListener("click", () => {
   const build = updateBuildStats();
@@ -235,9 +271,14 @@ generateCodeBtn.addEventListener("click", () => {
   myRaceCodeInput.value = generateRaceCode(build);
 });
 
+
+// ===============================
+// RACE FRIEND
+// ===============================
+
 async function handleRaceFriend() {
   if (!friendCodeInput.value.trim()) {
-    raceOutput.textContent = "Enter a friend code first.";
+    raceOutput.textContent = "Enter a friend code.";
     return;
   }
 
@@ -245,10 +286,7 @@ async function handleRaceFriend() {
   await runStagingTree();
 
   const myBuild = updateBuildStats();
-  if (!myBuild) {
-    raceOutput.textContent = "Your build is incomplete.";
-    return;
-  }
+  if (!myBuild) return;
 
   const friendDecoded = decodeRaceCode(friendCodeInput.value.trim());
   if (!friendDecoded) {
@@ -282,21 +320,22 @@ async function handleRaceFriend() {
     simulateDragLive(friendSimBuild, barFriend)
   ]);
 
-  const resultText = formatRaceResults("Friend", myRun, frRun);
-  raceOutput.textContent = resultText;
+  raceOutput.textContent = formatRaceResults("Friend", myRun, frRun);
 }
 
 raceFriendBtn.addEventListener("click", handleRaceFriend);
+
+
+// ===============================
+// RACE SOLO (RANKED OPPONENT)
+// ===============================
 
 async function handleRaceSolo() {
   raceOutput.textContent = "Staging...";
   await runStagingTree();
 
   const myBuild = updateBuildStats();
-  if (!myBuild) {
-    raceOutput.textContent = "Your build is incomplete.";
-    return;
-  }
+  if (!myBuild) return;
 
   barYou.style.width = "0%";
   barFriend.style.width = "0%";
@@ -326,27 +365,30 @@ async function handleRaceSolo() {
     simulateDragLive(rivalSimBuild, barFriend)
   ]);
 
-  const resultText = formatRaceResults(`Rival (${rival.car.name})`, myRun, rivalRun);
-  raceOutput.textContent = resultText;
+  raceOutput.textContent = formatRaceResults(`Rival (${rival.car.name})`, myRun, rivalRun);
 }
 
 raceSoloBtn.addEventListener("click", handleRaceSolo);
 
-function formatRaceResults(opponentLabel, myRun, oppRun) {
+
+// ===============================
+// FORMAT RESULTS
+// ===============================
+
+function formatRaceResults(label, myRun, oppRun) {
   if (myRun.dnf || myRun.wreck || oppRun.dnf || oppRun.wreck) {
     let msg = "";
 
     if (myRun.dnf) msg += "YOU DNF: " + myRun.reason + "\n";
     if (myRun.wreck) msg += "YOU WRECKED: " + myRun.reason + "\n";
 
-    if (oppRun.dnf) msg += `${opponentLabel} DNF: ${oppRun.reason}\n`;
-    if (oppRun.wreck) msg += `${opponentLabel} WRECKED: ${oppRun.reason}\n`;
+    if (oppRun.dnf) msg += `${label} DNF: ${oppRun.reason}\n`;
+    if (oppRun.wreck) msg += `${label} WRECKED: ${oppRun.reason}\n`;
 
-    if (!msg) msg = "Both cars failed for unknown reasons.";
-    return msg;
+    return msg || "Both cars failed.";
   }
 
-  const winner = myRun.ft1320 < oppRun.ft1320 ? "YOU WIN" : `${opponentLabel.toUpperCase()} WINS`;
+  const winner = myRun.ft1320 < oppRun.ft1320 ? "YOU WIN" : `${label.toUpperCase()} WINS`;
 
   return `Your Run:
 60ft: ${myRun.ft60.toFixed(2)}
@@ -355,7 +397,7 @@ function formatRaceResults(opponentLabel, myRun, oppRun) {
 1000ft: ${myRun.ft1000.toFixed(2)}
 1/4: ${myRun.ft1320.toFixed(2)}
 
-${opponentLabel}:
+${label}:
 60ft: ${oppRun.ft60.toFixed(2)}
 330ft: ${oppRun.ft330.toFixed(2)}
 1/8: ${oppRun.ft660.toFixed(2)} @ ${oppRun.trap.toFixed(1)} mph
@@ -365,28 +407,9 @@ ${opponentLabel}:
 ${winner}`;
 }
 
-import { synergy } from "./modules/build.js";
 
-const openDictionaryBtn = document.getElementById("openDictionaryBtn");
-const dictionaryOverlay = document.getElementById("dictionaryOverlay");
-const dictionaryText = document.getElementById("dictionaryText");
-const closeDictionaryBtn = document.getElementById("closeDictionaryBtn");
-
-openDictionaryBtn.addEventListener("click", () => {
-  dictionaryOverlay.classList.remove("hidden");
-
-  const entries = Object.entries(synergy);
-  const formatted = entries.map(([key, val]) => {
-    return `${key}:\n  ${Object.entries(val).map(([k, v]) => `${k}: ${v}`).join("\n  ")}`;
-  }).join("\n\n");
-
-  dictionaryText.textContent = formatted;
-});
-
-closeDictionaryBtn.addEventListener("click", () => {
-  dictionaryOverlay.classList.add("hidden");
-});
-
-
+// ===============================
+// INITIALIZE
+// ===============================
 
 updateBuildStats();

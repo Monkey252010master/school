@@ -442,6 +442,11 @@ body.advancedMode .headerBtn {
   gap: 10px;
 }
 
+#closeDictionaryBtn {
+  position: absolute;
+  z-index: 1001;
+}
+
 #dictionaryOverlay {
   position: fixed;
   inset: 0;
