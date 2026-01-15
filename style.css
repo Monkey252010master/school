@@ -482,3 +482,30 @@ body.advancedMode .headerBtn {
 .hidden {
   display: none;
 }
+
+.switchGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.headerBtn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+body.simpleMode .headerBtn {
+  background: #0077ff;
+  color: white;
+  box-shadow: 0 0 8px #0077ff;
+}
+
+body.advancedMode .headerBtn {
+  background: #ff3b3b;
+  color: white;
+  box-shadow: 0 0 8px #ff3b3b;
+}

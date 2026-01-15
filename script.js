@@ -368,12 +368,23 @@ ${winner}`;
 import { synergy } from "./modules/build.js";
 
 const openDictionaryBtn = document.getElementById("openDictionaryBtn");
-const dictionaryPanel = document.getElementById("dictionaryPanel");
-const dictionaryContent = document.getElementById("dictionaryContent");
+const dictionaryOverlay = document.getElementById("dictionaryOverlay");
+const dictionaryText = document.getElementById("dictionaryText");
+const closeDictionaryBtn = document.getElementById("closeDictionaryBtn");
 
 openDictionaryBtn.addEventListener("click", () => {
-  dictionaryPanel.classList.toggle("hidden");
-  dictionaryContent.textContent = JSON.stringify(synergy, null, 2);
+  dictionaryOverlay.classList.remove("hidden");
+
+  const entries = Object.entries(synergy);
+  const formatted = entries.map(([key, val]) => {
+    return `${key}:\n  ${Object.entries(val).map(([k, v]) => `${k}: ${v}`).join("\n  ")}`;
+  }).join("\n\n");
+
+  dictionaryText.textContent = formatted;
+});
+
+closeDictionaryBtn.addEventListener("click", () => {
+  dictionaryOverlay.classList.add("hidden");
 });
 
 
