@@ -365,4 +365,15 @@ ${opponentLabel}:
 ${winner}`;
 }
 
+import { synergy } from "./modules/build.js";
+
+const openDictionaryBtn = document.getElementById("openDictionaryBtn");
+const dictionaryPanel = document.getElementById("dictionaryPanel");
+const dictionaryContent = document.getElementById("dictionaryContent");
+
+openDictionaryBtn.addEventListener("click", () => {
+  dictionaryPanel.classList.toggle("hidden");
+  dictionaryContent.textContent = JSON.stringify(synergy, null, 2);
+});
+
 updateBuildStats();
