@@ -1,0 +1,74 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #0b0c10;
+  color: #fff;
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+}
+
+.left, .right {
+  padding: 20px;
+}
+
+.left {
+  flex: 1;
+  border-right: 1px solid #45a29e33;
+}
+
+.right {
+  flex: 1;
+}
+
+h1, h2 {
+  margin-top: 0;
+}
+
+.control {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  color: #c5c6c7;
+}
+
+select, button {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: none;
+  margin-bottom: 5px;
+}
+
+button {
+  background: #45a29e;
+  color: #0b0c10;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #66fcf1;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+#simResult {
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 6px;
+  background: #1f2833;
+  min-height: 40px;
+  font-size: 14px;
+}

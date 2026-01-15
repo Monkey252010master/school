@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Car Tuner Simulator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <div class="left">
+      <h1>Car Tuner Simulator</h1>
+
+      <div class="control">
+        <label for="carSelect">Car</label>
+        <select id="carSelect"></select>
+      </div>
+
+      <div class="control">
+        <label for="engineSelect">Engine / Tune</label>
+        <select id="engineSelect"></select>
+      </div>
+
+      <div class="control">
+        <label for="tireSelect">Tires</label>
+        <select id="tireSelect"></select>
+      </div>
+
+      <button id="runSim">Run Drag Simulation</button>
+    </div>
+
+    <div class="right">
+      <h2>Build Stats</h2>
+      <div class="stat-row"><span>Horsepower</span><span id="statHp">-</span></div>
+      <div class="stat-row"><span>Weight</span><span id="statWeight">-</span></div>
+      <div class="stat-row"><span>Power / Weight</span><span id="statPw">-</span></div>
+      <div class="stat-row"><span>Grip</span><span id="statGrip">-</span></div>
+
+      <h2>Estimated Performance</h2>
+      <div class="stat-row"><span>0–60 mph</span><span id="stat060">-</span></div>
+      <div class="stat-row"><span>1/4 Mile</span><span id="statQuarter">-</span></div>
+      <div class="stat-row"><span>Top Speed</span><span id="statTop">-</span></div>
+      <div class="stat-row"><span>Build Score</span><span id="statScore">-</span></div>
+
+      <div id="simResult"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
